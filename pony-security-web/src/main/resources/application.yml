@@ -4,3 +4,15 @@ server:
 spring:
   thymeleaf:
     cache: false #关闭thymeleaf缓存
+
+pony:
+  security:
+    authentication:
+      loginPage: /login/page                      #前往登录页路径
+      loginProcessingUrl : /login/form            #默认登陆请求路径 : /login
+      usernameParameter : name                    #表单提交的账号name(默认username)
+      passwordParameter : pwd                     #表单提交的密码name(默认password)
+      staticPaths:                                #静态资源
+      - /modules/**
+      - /plugins/**
+      - /dist/**
