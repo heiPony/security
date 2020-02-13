@@ -13,7 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-@EnableWebSecurity //开启springSecurity 过滤器连
+@EnableWebSecurity //开启springSecurity 过滤器链
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     //当认证成功后，springSecurity会重定向到你上一次请求上如 localhost/user -->localhost/login/page --->localhost/user
@@ -21,6 +21,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     Logger logger= LoggerFactory.getLogger(SpringSecurityConfig.class);
     @Bean
     public PasswordEncoder passwordEncoder(){
+        //明文+随机盐值==密文密码，盐值基本每次都不一样
         return new BCryptPasswordEncoder();
     }
     /**
@@ -39,6 +40,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
+     * 当你认证成功之后，springSecurity会重定向到最后访问的请求
      * 资源权限配置
      * @Author huangzhanping
      * @param [http]
