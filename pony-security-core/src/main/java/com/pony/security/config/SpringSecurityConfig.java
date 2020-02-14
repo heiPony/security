@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -25,6 +26,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     SecurityProperties securityProperties;
+
+    //名字要跟实现类的名字一样
+    @Autowired
+    UserDetailsService customerUserDetailsService;
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -41,9 +46,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         //数据库存储的密码必须是加密得；
-        String encode = passwordEncoder().encode("123456");
-        logger.info("========"+encode);
-        auth.inMemoryAuthentication().withUser("pony").password(encode).authorities("ADMIN");
+//        String encode = passwordEncoder().encode("123456");
+//        logger.info("========"+encode);
+//        auth.inMemoryAuthentication().withUser("pony").password(encode).authorities("ADMIN");
+        auth.userDetailsService(customerUserDetailsService);
     }
 
     /**

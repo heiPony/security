@@ -1,9 +1,12 @@
 server:
   port: 80
+  servlet:
+    context-path: /login/page
 
 spring:
   thymeleaf:
     cache: false #关闭thymeleaf缓存
+
 
 pony:
   security:
