@@ -2,13 +2,9 @@ package com.pony.utils;
 
 import com.alibaba.fastjson.JSON;
 import lombok.Data;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import sun.management.snmp.util.MibLogger;
 
 @Data //自动生成getter/setter
 public class ReturnResult {
-    private static Logger logger = LoggerFactory.getLogger(ReturnResult.class);
     // 响应业务状态
     private Integer code;
 
@@ -72,7 +68,7 @@ public class ReturnResult {
         try {
             return JSON.parseObject(json, ReturnResult.class);
         } catch (Exception e) {
-            logger.info("JSON字符串转成 ReturnResult 对象异常："+e.getMessage(),e);
+//            logger.info("JSON字符串转成 ReturnResult 对象异常："+e.getMessage(),e);
         }
         return null;
     }

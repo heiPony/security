@@ -15,6 +15,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity //开启springSecurity 过滤器链
@@ -30,6 +32,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     //名字要跟实现类的名字一样
     @Autowired
     UserDetailsService customerUserDetailsService;
+
+    @Autowired
+    AuthenticationSuccessHandler authenticationSuccessHandler;
+    @Autowired
+    AuthenticationFailureHandler authenticationFailureHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -68,6 +75,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl(authentication.getLoginProcessingUrl()) //默认登陆请求路径("/login")
                 .usernameParameter(authentication.getUsernameParameter())   //表单提交的账号name(默认username)
                 .passwordParameter(authentication.getPasswordParameter())   //表单提交的密码name(默认password)
+                .successHandler(authenticationSuccessHandler)               //认证成功之后的处理
+                .failureHandler(authenticationFailureHandler)               //认证失败之后的处理
                 .and().authorizeRequests()                                  //认证请求
                 .antMatchers(authentication.getLoginPage()).permitAll()     //可在这里放行静态资源(一般在configure()方法)
                 .anyRequest().authenticated();                              //所有访问该应用的http请求都要通过身份认证
